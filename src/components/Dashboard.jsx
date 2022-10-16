@@ -12,7 +12,7 @@ import TestChart from '../components/TestChart'
 
 const Dashboard = () => {
     const user = USER_MAIN_DATA[0]
-    const activities = USER_ACTIVITY[1].sessions
+    const activities = USER_ACTIVITY[0].sessions
     const userDataCount = USER_MAIN_DATA[0].keyData
     //console.log(activities.sessions)
     return (

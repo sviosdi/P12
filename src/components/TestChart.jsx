@@ -29,24 +29,25 @@ const TestChart = ({ data }) => {
         const chart = d3.select(chartRef)
         chart.attr('class', 'activities')
         chart.style('position', 'relative')
-
-        const hist_top = 112.5
+        const depassement = 25
+        const hist_top = 112.5 - depassement
         const hist_bottom = 62.5
         const hist_left = 43
         const hist_right = 90
         const hist_w = chartRef.clientWidth - (hist_right + hist_left)
         const hist_h = chartRef.clientHeight - (hist_bottom + hist_top)
+        const hist_h_kilo = hist_h - depassement
 
         const rangeKilo = getRange(data, 'kilogram')
         const rangeCalo = getRange(data, 'calories')
         const nbEl = data.length
 
-        const kilo_hscale = hist_h / (rangeKilo.max - rangeKilo.min + 1)
+        const kilo_hscale = hist_h_kilo / (rangeKilo.max - rangeKilo.min + 1)
         const calo_hscale = hist_h / rangeCalo.max
 
         const svg = chart
             .append('svg')
-            .style('position', 'absolute')
+            .style('position', 'relative')
             .style('width', hist_w)
             .style('height', hist_h)
             .style('top', hist_top)
@@ -59,11 +60,13 @@ const TestChart = ({ data }) => {
             .attr('class', 'base-axis')
             .attr('d', `M0,${hist_h}h${hist_w}`)
 
-        svg.append('path').attr('class', 'axis').attr('d', `M0,0h${hist_w}`)
+        svg.append('path')
+            .attr('class', 'axis')
+            .attr('d', `M0,${depassement}h${hist_w}`)
 
         svg.append('path')
             .attr('class', 'axis')
-            .attr('d', `M0,${hist_h / 2}h${hist_w}`)
+            .attr('d', `M0,${depassement + hist_h_kilo / 2}h${hist_w}`)
 
         svg.selectAll('.kilo')
             .data(data)
@@ -150,25 +153,25 @@ const TestChart = ({ data }) => {
         const legendRight = chart
             .append('svg')
             .attr('class', 'legend-right')
-            .style('position', 'relative')
-            .style('top', 20)
+            .style('position', 'absolute')
+            .attr('top', 0)
             .style('left', chartRef.clientWidth - hist_right / 2 - 10)
             .style('width', 30)
             .style('height', chartRef.clientHeight - 20)
         legendRight
             .append('text')
             .attr('x', 0)
-            .attr('y', hist_top - 15)
+            .attr('y', hist_top + depassement + 1)
             .text(rangeKilo.max)
         legendRight
             .append('text')
             .attr('x', 0)
-            .attr('y', hist_top + hist_h / 2 - 15)
+            .attr('y', hist_top + depassement + hist_h_kilo / 2 + 1)
             .text((rangeKilo.min - 1 + rangeKilo.max) / 2)
         legendRight
             .append('text')
             .attr('x', 0)
-            .attr('y', hist_top + hist_h - 15)
+            .attr('y', hist_top + hist_h + 1)
             .text(rangeKilo.min - 1)
     }
 
