@@ -1,0 +1,49 @@
+.dashboard-main {
+    width: 100%;
+    padding-left: 7.5%;
+    padding-top: 6.7vh;
+    padding-right: 6%;
+}
+
+header {
+    color: black;
+    width: 100%;
+}
+
+header>div:first-child {
+    font-size: 48px;
+}
+
+header>div:first-child>span {
+    color: #ff0101;
+}
+
+header>div:last-child {
+    font-size: 18px;
+    font-weight: 400;
+    margin-top: 20px;
+}
+
+header>div:last-child>img {
+    width: 20px;
+    margin-left: 8px;
+    vertical-align: text-bottom;
+}
+
+.main-layout {
+    display: flex;
+    margin-top: 7.5vh;
+    width: 100%;
+}
+
+
+.left-dash {
+    width: 75%;
+}
+
+.right-dash {
+    display: flex;
+    flex-direction: column;
+    gap: 39px;
+    margin-left: 32px;
+}

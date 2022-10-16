@@ -1,0 +1,52 @@
+.activities {
+    width: 100%;
+    height: 320px;
+    background-color: #fafafa;
+    border-radius: 5px;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.09);
+}
+
+.activities .kilo {
+    fill: #282d30;
+}
+
+.activities .calo {
+    fill: #e60000;
+}
+
+.base-axis {
+    stroke: #dedede;
+}
+
+.axis {
+    stroke: #dedede;
+    stroke-dasharray: 2 2;
+}
+
+.base-axis-legend {
+    font-size: 14px;
+    fill: #9b9eac;
+}
+
+.legend {
+    font-size: 15px;
+    fill: #20253a;
+}
+
+.sub-legend {
+    font-size: 14px;
+    fill: #74798c;
+}
+
+.sub-legend .legend-poids {
+    fill: #282d30;
+}
+
+.sub-legend .legend-cal {
+    fill: #e60000;
+}
+
+.legend-right {
+    fill: #9b9eac;
+    font-size: 14px;
+}
