@@ -20,6 +20,11 @@ const getRange = (data, prop) => {
 }
 
 const TestChart = ({ data }) => {
+    data = data.map((e, i) => {
+        e.count = i
+        return e
+    })
+
     const ref = useRef()
     useEffect(() => {
         draw(ref.current)
@@ -68,6 +73,17 @@ const TestChart = ({ data }) => {
             .attr('class', 'axis')
             .attr('d', `M0,${depassement + hist_h_kilo / 2}h${hist_w}`)
 
+        svg.selectAll('.select')
+            .data(data)
+            .enter()
+            .append('rect')
+            .attr('class', 'select')
+            .attr('x', (d, i) => i * w - 17)
+            .attr('y', 0)
+            .attr('width', 56)
+            .attr('height', hist_h + 20)
+            .attr('id', (d, i) => `sel-${i}`)
+
         svg.selectAll('.kilo')
             .data(data)
             .enter()
@@ -92,6 +108,25 @@ const TestChart = ({ data }) => {
                 bar(i * w + 15, hist_h, 7, calo_hscale * d.calories, 3)
             )
 
+        svg.selectAll('.transparent')
+            .data(data)
+            .enter()
+            .append('rect')
+            .attr('class', 'select-transparent')
+            .attr('x', (d, i) => {
+                return i * w - 17
+            })
+            .attr('y', 0)
+            .attr('width', 56)
+            .attr('height', hist_h + 20)
+            .on('mouseenter', (e, d) => {
+                const rect = d3.select(`#sel-${d.count}`)
+                rect.style('visibility', 'visible')
+            })
+            .on('mouseout', (e, d) => {
+                const rect = d3.select(`#sel-${d.count}`)
+                rect.style('visibility', 'hidden')
+            })
         // affichage des jours
         chart
             .append('svg')

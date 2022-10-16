@@ -50,3 +50,12 @@
     fill: #9b9eac;
     font-size: 14px;
 }
+
+.select {
+    fill: rgba(196, 196, 196, 0.5);
+    visibility: hidden;
+}
+
+.select-transparent {
+    fill: #fafafa00;
+}
