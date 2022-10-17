@@ -52,8 +52,9 @@
 }
 
 .select {
-    fill: rgba(196, 196, 196, 0.5);
-    visibility: hidden;
+    fill: rgb(196, 196, 196);
+    opacity: 0;
+    transition: opacity 100ms;
 }
 
 .select-transparent {
@@ -62,6 +63,8 @@
 
 #act-tooltip {
     background-color: #e60000;
+    opacity: 0;
+    transition: opacity 100ms;
 }
 
 .tooltip-data {
@@ -69,5 +72,4 @@
     font-size: 11px;
     line-height: 24px;
     font-weight: 700;
-
 }

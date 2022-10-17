@@ -123,7 +123,7 @@ const TestChart = ({ data }) => {
             .attr('height', hist_h)
             .on('mouseenter', (e, d) => {
                 const rect = d3.select(`#sel-${d.count}`)
-                rect.style('visibility', 'visible')
+                rect.style('opacity', 0.5)
                 let tt = document.getElementById('act-tooltip')
                 const getPx = () => {
                     switch (d.count) {
@@ -133,7 +133,7 @@ const TestChart = ({ data }) => {
                             return d.count * w + hist_left + 22 + deb * 1.5
                     }
                 }
-                tooltip.style('visibility', 'visible')
+                tooltip.style('opacity', 1)
                 tooltip.style('left', `${getPx()}px`)
                 tooltip.style(
                     'top',
@@ -144,8 +144,8 @@ const TestChart = ({ data }) => {
             })
             .on('mouseout', (e, d) => {
                 const rect = d3.select(`#sel-${d.count}`)
-                rect.style('visibility', 'hidden')
-                tooltip.style('visibility', 'hidden')
+                rect.style('opacity', 0)
+                tooltip.style('opacity', 0)
             })
         // affichage des jours
         chart
@@ -236,7 +236,7 @@ const TestChart = ({ data }) => {
             .style('position', 'absolute')
             .style('width', 54)
             .style('height', 63)
-            .style('visibility', 'hidden')
+            .style('opacity', 0)
 
         tooltip
             .append('text')
