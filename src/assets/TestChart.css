@@ -59,3 +59,15 @@
 .select-transparent {
     fill: #fafafa00;
 }
+
+#act-tooltip {
+    background-color: #e60000;
+}
+
+.tooltip-data {
+    fill: white;
+    font-size: 11px;
+    line-height: 24px;
+    font-weight: 700;
+
+}

@@ -34,21 +34,23 @@ const TestChart = ({ data }) => {
         const chart = d3.select(chartRef)
         chart.attr('class', 'activities')
         chart.style('position', 'relative')
-        const depassement = 25
-        const hist_top = 112.5 - depassement
+        const dep = 50 // dépassement vertical du rectangle de sélection par rapport à kilo.max
+        const cal_dep = 25 // dépassement vertical de calo.max par rapport à kilo.max
+        const deb = 17 // débordement horizontale du rectangle de sélection
+        const hist_top = 112.5 - dep
         const hist_bottom = 62.5
-        const hist_left = 43
-        const hist_right = 90
+        const hist_left = 43 - deb
+        const hist_right = 90 - deb
         const hist_w = chartRef.clientWidth - (hist_right + hist_left)
         const hist_h = chartRef.clientHeight - (hist_bottom + hist_top)
-        const hist_h_kilo = hist_h - depassement
+        const hist_h_kilo = hist_h - dep
 
         const rangeKilo = getRange(data, 'kilogram')
         const rangeCalo = getRange(data, 'calories')
         const nbEl = data.length
 
         const kilo_hscale = hist_h_kilo / (rangeKilo.max - rangeKilo.min + 1)
-        const calo_hscale = hist_h / rangeCalo.max
+        const calo_hscale = (hist_h_kilo + cal_dep) / rangeCalo.max
 
         const svg = chart
             .append('svg')
@@ -58,30 +60,30 @@ const TestChart = ({ data }) => {
             .style('top', hist_top)
             .style('left', hist_left)
 
-        const w = (hist_w - 22) / (nbEl - 1)
+        const w = (hist_w - deb * 2 - 22) / (nbEl - 1)
 
         // affichage de l'axe de base, axe supérieur et axe intermédiaire
         svg.append('path')
             .attr('class', 'base-axis')
-            .attr('d', `M0,${hist_h}h${hist_w}`)
+            .attr('d', `M${deb},${hist_h}h${hist_w - deb * 2}`)
 
         svg.append('path')
             .attr('class', 'axis')
-            .attr('d', `M0,${depassement}h${hist_w}`)
+            .attr('d', `M${deb},${dep}h${hist_w - deb * 2}`)
 
         svg.append('path')
             .attr('class', 'axis')
-            .attr('d', `M0,${depassement + hist_h_kilo / 2}h${hist_w}`)
+            .attr('d', `M${deb},${dep + hist_h_kilo / 2}h${hist_w - deb * 2}`)
 
         svg.selectAll('.select')
             .data(data)
             .enter()
             .append('rect')
             .attr('class', 'select')
-            .attr('x', (d, i) => i * w - 17)
+            .attr('x', (d, i) => i * w)
             .attr('y', 0)
-            .attr('width', 56)
-            .attr('height', hist_h + 20)
+            .attr('width', 22 + deb * 2)
+            .attr('height', hist_h)
             .attr('id', (d, i) => `sel-${i}`)
 
         svg.selectAll('.kilo')
@@ -91,7 +93,7 @@ const TestChart = ({ data }) => {
             .attr('class', 'kilo')
             .attr('d', (d, i) =>
                 bar(
-                    i * w,
+                    i * w + deb,
                     hist_h,
                     7,
                     kilo_hscale * (d.kilogram - rangeKilo.min + 1),
@@ -105,7 +107,7 @@ const TestChart = ({ data }) => {
             .append('path')
             .attr('class', 'calo')
             .attr('d', (d, i) =>
-                bar(i * w + 15, hist_h, 7, calo_hscale * d.calories, 3)
+                bar(i * w + deb + 15, hist_h, 7, calo_hscale * d.calories, 3)
             )
 
         svg.selectAll('.transparent')
@@ -114,18 +116,36 @@ const TestChart = ({ data }) => {
             .append('rect')
             .attr('class', 'select-transparent')
             .attr('x', (d, i) => {
-                return i * w - 17
+                return i * w
             })
             .attr('y', 0)
-            .attr('width', 56)
-            .attr('height', hist_h + 20)
+            .attr('width', 22 + deb * 2)
+            .attr('height', hist_h)
             .on('mouseenter', (e, d) => {
                 const rect = d3.select(`#sel-${d.count}`)
                 rect.style('visibility', 'visible')
+                let tt = document.getElementById('act-tooltip')
+                const getPx = () => {
+                    switch (d.count) {
+                        case data.length - 1:
+                            return hist_w + hist_left - 1.5 * deb - 22 - 54
+                        default:
+                            return d.count * w + hist_left + 22 + deb * 1.5
+                    }
+                }
+                tooltip.style('visibility', 'visible')
+                tooltip.style('left', `${getPx()}px`)
+                tooltip.style(
+                    'top',
+                    `${hist_h + hist_top - hist_h_kilo - 32}px`
+                )
+                tooltip.select('#tooltip-kilo').text(`${d.kilogram} kg`)
+                tooltip.select('#tooltip-calo').text(`${d.calories} kCal`)
             })
             .on('mouseout', (e, d) => {
                 const rect = d3.select(`#sel-${d.count}`)
                 rect.style('visibility', 'hidden')
+                tooltip.style('visibility', 'hidden')
             })
         // affichage des jours
         chart
@@ -133,8 +153,8 @@ const TestChart = ({ data }) => {
             .attr('class', 'base-axis-legend')
             .style('position', 'absolute')
             .style('top', hist_top + hist_h + 15)
-            .style('left', hist_left)
-            .style('width', hist_w)
+            .style('left', hist_left + deb)
+            .style('width', hist_w - deb * 2)
             .style('height', 22)
             .selectAll()
             .data(data)
@@ -196,18 +216,41 @@ const TestChart = ({ data }) => {
         legendRight
             .append('text')
             .attr('x', 0)
-            .attr('y', hist_top + depassement + 1)
+            .attr('y', hist_top + dep + 1)
             .text(rangeKilo.max)
         legendRight
             .append('text')
             .attr('x', 0)
-            .attr('y', hist_top + depassement + hist_h_kilo / 2 + 1)
+            .attr('y', hist_top + dep + hist_h_kilo / 2 + 1)
             .text((rangeKilo.min - 1 + rangeKilo.max) / 2)
         legendRight
             .append('text')
             .attr('x', 0)
             .attr('y', hist_top + hist_h + 1)
             .text(rangeKilo.min - 1)
+
+        // tooltip
+        const tooltip = chart
+            .append('svg')
+            .attr('id', 'act-tooltip')
+            .style('position', 'absolute')
+            .style('width', 54)
+            .style('height', 63)
+            .style('visibility', 'hidden')
+
+        tooltip
+            .append('text')
+            .attr('x', 5)
+            .attr('y', 24)
+            .attr('class', 'tooltip-data')
+            .attr('id', 'tooltip-kilo')
+
+        tooltip
+            .append('text')
+            .attr('x', 5)
+            .attr('y', 50)
+            .attr('class', 'tooltip-data')
+            .attr('id', 'tooltip-calo')
     }
 
     return <div ref={ref}></div>
