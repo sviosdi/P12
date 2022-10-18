@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import * as d3 from 'd3'
-
-import '../assets/TestChart.css'
+import { getRange } from '../utils/utils'
+import '../assets/ActivChart.css'
 
 function bar(x, y, w, h, r) {
     return `M${x},${y}h${w}v${r - h}a${r},${r} 0 0 0 -${r},-${r}h${
@@ -9,17 +9,13 @@ function bar(x, y, w, h, r) {
     }a${r},${r} 0 0 0 -${r}, ${r}z`
 }
 
-const getRange = (data, prop) => {
-    let max = data[0][prop]
-    let min = max
-    data.forEach((e) => {
-        max = e[prop] > max ? e[prop] : max
-        min = e[prop] < min ? e[prop] : min
-    })
-    return { max: max, min: min }
-}
+const ActiveChart = ({ data }) => {
+    const [vpW, setvpW] = useState(window.innerWidth)
+    let shouldRender = true
+    const resizeActivities = () => {
+        setvpW(window.innerWidth)
+    }
 
-const TestChart = ({ data }) => {
     data = data.map((e, i) => {
         e.count = i
         return e
@@ -27,11 +23,20 @@ const TestChart = ({ data }) => {
 
     const ref = useRef()
     useEffect(() => {
-        draw(ref.current)
+        window.addEventListener('resize', resizeActivities)
+        //draw(ref.current) ?? utile ou pas ?
+        return () => window.removeEventListener('resize', resizeActivities)
     }, [])
 
+    useEffect(() => {
+        //console.log('useEffect() resizing...')
+        if (ref.current.firstElementChild)
+            ref.current.firstElementChild.remove()
+        draw(ref.current)
+    }, [vpW])
+
     const draw = (chartRef) => {
-        const chart = d3.select(chartRef)
+        const chart = d3.select(ref.current).append('div')
         chart.attr('class', 'activities')
         chart.style('position', 'relative')
         const dep = 50 // dépassement vertical du rectangle de sélection par rapport à kilo.max
@@ -256,4 +261,4 @@ const TestChart = ({ data }) => {
     return <div ref={ref}></div>
 }
 
-export default TestChart
+export default ActiveChart

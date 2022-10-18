@@ -47,3 +47,9 @@ header>div:last-child>img {
     gap: 39px;
     margin-left: 32px;
 }
+
+.bottom-charts {
+    display: flex;
+    margin-top: 28px;
+    margin-bottom: 86px;
+}

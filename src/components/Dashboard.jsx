@@ -1,6 +1,8 @@
-import { USER_MAIN_DATA } from '../data/data'
-import { USER_ACTIVITY } from '../data/data'
-
+import {
+    USER_ACTIVITY,
+    USER_MAIN_DATA,
+    USER_AVERAGE_SESSIONS,
+} from '../data/data'
 import '../assets/Dashboard.css'
 import hand from '../assets/img/hand.svg'
 import calo from '../assets/img/calories.svg'
@@ -8,12 +10,17 @@ import prot from '../assets/img/proteines.svg'
 import gluc from '../assets/img/glucides.svg'
 import lipi from '../assets/img/lipides.svg'
 import UserDataCount from '../components/UserDataCount'
-import TestChart from '../components/TestChart'
+import ActivChart from '../components/ActivChart'
+import ScoreChart from './ScoreChart'
+import TimeChart from './TimeChart'
+import RadarChart from './RadarChart'
 
 const Dashboard = () => {
-    const user = USER_MAIN_DATA[0]
-    const activities = USER_ACTIVITY[0].sessions
-    const userDataCount = USER_MAIN_DATA[0].keyData
+    const user = USER_MAIN_DATA[1]
+    const activities = USER_ACTIVITY[1].sessions
+    const userDataCount = USER_MAIN_DATA[1].keyData
+    const score = USER_MAIN_DATA[1].score
+    const times = USER_AVERAGE_SESSIONS[0].sessions
 
     return (
         <div className="dashboard-main">
@@ -28,7 +35,12 @@ const Dashboard = () => {
             </header>
             <section className="main-layout">
                 <div className="left-dash">
-                    <TestChart data={activities} />
+                    <ActivChart data={activities} />
+                    <div className="bottom-charts">
+                        <TimeChart data={times} />
+                        <RadarChart data={'radar chart'} />
+                        <ScoreChart data={score} />
+                    </div>
                 </div>
                 <div className="right-dash">
                     <UserDataCount

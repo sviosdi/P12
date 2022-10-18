@@ -5,8 +5,7 @@
     align-items: center;
     background-color: #020203;
     width: 117px;
-    min-height: 780px;
-    height: calc(100vh - 91px);
+    min-height: calc(100vh - 91px);
     box-shadow: 0px 4px 4px 0px #00000040;
 }
 
