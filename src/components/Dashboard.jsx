@@ -19,7 +19,7 @@ const Dashboard = () => {
     const user = USER_MAIN_DATA[1]
     const activities = USER_ACTIVITY[1].sessions
     const userDataCount = USER_MAIN_DATA[1].keyData
-    const score = USER_MAIN_DATA[1].score
+    const score = USER_MAIN_DATA[0].score
     const times = USER_AVERAGE_SESSIONS[0].sessions
 
     return (

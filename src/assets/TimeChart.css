@@ -2,3 +2,24 @@
     position: relative;
     stroke-width: 2px;
 }
+
+#times-curve {
+    fill: white;
+}
+
+.times-tooltip {
+    background-color: white;
+    opacity: 0;
+    top: 0px;
+    left: 0px;
+    transition: all 100ms;
+
+}
+
+#times-tooltip-label {
+    fill: black;
+}
+
+.times-spot {
+    transition: all 100ms;
+}
