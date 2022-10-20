@@ -2,6 +2,7 @@ import {
     USER_ACTIVITY,
     USER_MAIN_DATA,
     USER_AVERAGE_SESSIONS,
+    USER_PERFORMANCE,
 } from '../data/data'
 import '../assets/Dashboard.css'
 import hand from '../assets/img/hand.svg'
@@ -21,6 +22,7 @@ const Dashboard = () => {
     const userDataCount = USER_MAIN_DATA[1].keyData
     const score = USER_MAIN_DATA[0].score
     const times = USER_AVERAGE_SESSIONS[0].sessions
+    const performances = USER_PERFORMANCE[0].data
 
     return (
         <div className="dashboard-main">
@@ -38,7 +40,7 @@ const Dashboard = () => {
                     <ActivChart data={activities} />
                     <div className="bottom-charts">
                         <TimeChart data={times} />
-                        <RadarChart data={'radar chart'} />
+                        <RadarChart data={performances} />
                         <ScoreChart data={score} />
                     </div>
                 </div>

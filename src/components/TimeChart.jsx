@@ -25,7 +25,6 @@ const TimeChart = ({ data: times }) => {
     }, [])
 
     useEffect(() => {
-        //console.log('useEffect() resizing...')
         if (ref.current.firstElementChild) {
             ref.current.firstElementChild.remove()
         }
