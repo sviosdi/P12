@@ -5,7 +5,6 @@ import { getRange } from '../utils/utils'
 
 let radarGridPointsRef = []
 let radarLablels = []
-let radarLabelsPos = []
 const starting_index = 4
 
 const RadarChart = ({ data: performances, kind }) => {
@@ -57,7 +56,7 @@ const RadarChart = ({ data: performances, kind }) => {
         }
         d3.select(ref.current).append('g')
         draw()
-    }, [radarW])
+    }, [radarW, performances])
 
     const radarGridLine = (w) => {
         return `
@@ -141,7 +140,9 @@ const RadarChart = ({ data: performances, kind }) => {
             const context = canvas.getContext('2d')
             context.font = fontSize + 'px ' + 'Roboto'
 
-            const lbl_width = context.measureText(radarLablels[i]).width
+            const lbl_width = context.measureText(
+                toFrench[radarLablels[i]]
+            ).width
             const lbl_height = fontSize
 
             const sx = radarW / 2 + Rmax * 1.1 * ref.x

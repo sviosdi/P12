@@ -1,9 +1,4 @@
-import {
-    USER_ACTIVITY,
-    USER_MAIN_DATA,
-    USER_AVERAGE_SESSIONS,
-    USER_PERFORMANCE,
-} from '../data/data'
+import { useLoaderData } from 'react-router-dom'
 import '../assets/Dashboard.css'
 import hand from '../assets/img/hand.svg'
 import calo from '../assets/img/calories.svg'
@@ -17,13 +12,11 @@ import TimeChart from './TimeChart'
 import RadarChart from './RadarChart'
 
 const Dashboard = () => {
-    const user = USER_MAIN_DATA[1]
-    const activities = USER_ACTIVITY[1].sessions
-    const userDataCount = USER_MAIN_DATA[1].keyData
-    const score = USER_MAIN_DATA[0].score
-    const times = USER_AVERAGE_SESSIONS[0].sessions
-    const performances = USER_PERFORMANCE[1].data
-    const kind = USER_PERFORMANCE[1].kind
+    const { user, activities, times, perf } = useLoaderData()
+    const userDataCount = user.keyData
+    const score = user.score
+    const performances = perf.data
+    const kind = perf.kind
 
     return (
         <div className="dashboard-main">

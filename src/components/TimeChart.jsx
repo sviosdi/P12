@@ -30,7 +30,7 @@ const TimeChart = ({ data: times }) => {
         }
         d3.select(ref.current).append('g')
         draw()
-    }, [timeW])
+    }, [timeW, times])
 
     const draw = () => {
         const paddingTop = 0.32 * timeW

@@ -25,7 +25,7 @@ const ScoreChart = ({ data: score }) => {
         if (ref.current.firstElementChild)
             ref.current.firstElementChild.remove()
         draw(ref.current)
-    }, [scoreW])
+    }, [scoreW, score])
 
     const draw = () => {
         var svg = d3

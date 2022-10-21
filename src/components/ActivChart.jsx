@@ -33,7 +33,7 @@ const ActiveChart = ({ data }) => {
         if (ref.current.firstElementChild)
             ref.current.firstElementChild.remove()
         draw(ref.current)
-    }, [vpW])
+    }, [vpW, data])
 
     const draw = (chartRef) => {
         const chart = d3.select(ref.current).append('div')
