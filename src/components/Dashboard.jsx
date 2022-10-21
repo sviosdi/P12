@@ -22,7 +22,8 @@ const Dashboard = () => {
     const userDataCount = USER_MAIN_DATA[1].keyData
     const score = USER_MAIN_DATA[0].score
     const times = USER_AVERAGE_SESSIONS[0].sessions
-    const performances = USER_PERFORMANCE[0].data
+    const performances = USER_PERFORMANCE[1].data
+    const kind = USER_PERFORMANCE[1].kind
 
     return (
         <div className="dashboard-main">
@@ -40,7 +41,7 @@ const Dashboard = () => {
                     <ActivChart data={activities} />
                     <div className="bottom-charts">
                         <TimeChart data={times} />
-                        <RadarChart data={performances} />
+                        <RadarChart data={performances} kind={kind} />
                         <ScoreChart data={score} />
                     </div>
                 </div>

@@ -3,20 +3,25 @@ import * as d3 from 'd3'
 import '../assets/RadarChart.css'
 import { getRange } from '../utils/utils'
 
-const RadarChart = ({ data: performances }) => {
+let radarGridPointsRef = []
+let radarLablels = []
+let radarLabelsPos = []
+const starting_index = 4
+
+const RadarChart = ({ data: performances, kind }) => {
+    const toFrench = {
+        cardio: 'Cardio',
+        speed: 'Vitesse',
+        intensity: 'Intensité',
+        energy: 'Énergie',
+        strength: 'Force',
+        endurance: 'Endurance',
+    }
     const ref = React.useRef()
     const [radarW, setRadarW] = useState(0)
     const performancesRange = getRange(performances, 'value')
 
     const N = performances.length
-    let radarPointsRef = []
-    for (let i = 0; i < N; i++) {
-        const ang = Math.PI / 6 // tourner l'ensemble de 30°
-        radarPointsRef.push({
-            x: Math.cos((i * Math.PI * 2) / N + ang),
-            y: Math.sin((i * Math.PI * 2) / N + ang),
-        })
-    }
 
     const resizeChart = () => {
         const chart = document.querySelector('.c-radar')
@@ -26,10 +31,23 @@ const RadarChart = ({ data: performances }) => {
     }
 
     useEffect(() => {
+        console.log('RadarChart first drawn')
         window.addEventListener('resize', resizeChart)
-        //draw(ref.current)
-        console.log('RadarChart first drawned')
         resizeChart()
+        radarLablels = performances.map(
+            (p, i) => kind[((p.kind - 1 + starting_index) % N) + 1]
+        )
+        for (let i = 0; i < N; i++) {
+            // Premier point du polygone a pour coordonnée (0,1) les autres sont placés
+            // puis on tourne le tout de 30°
+            const ang = Math.PI / 6
+            let x = Math.cos((i * Math.PI * 2) / N + ang)
+            let y = Math.sin((i * Math.PI * 2) / N + ang)
+            radarGridPointsRef.push({
+                x: Math.cos((i * Math.PI * 2) / N + ang),
+                y: Math.sin((i * Math.PI * 2) / N + ang),
+            })
+        }
         return () => window.removeEventListener('resize', resizeChart)
     }, [])
 
@@ -41,9 +59,9 @@ const RadarChart = ({ data: performances }) => {
         draw()
     }, [radarW])
 
-    const radarLine = (w) => {
-        return `M${radarW / 2},${radarW / 2}
-            ${radarPointsRef.reduce(
+    const radarGridLine = (w) => {
+        return `
+            ${radarGridPointsRef.reduce(
                 (prev, curr, idx) =>
                     `${prev + (idx === 0 ? 'M' : 'L')}${
                         radarW / 2 + w * curr.x
@@ -52,28 +70,94 @@ const RadarChart = ({ data: performances }) => {
             )}Z`
     }
 
+    const padding = 0.17 * radarW
+    const Rmax = radarW / 2 - padding
+
     const draw = () => {
-        const g = d3
-            .select(ref.current.firstElementChild)
+        const g = d3.select(ref.current.firstElementChild)
+        const grid = g
             .append('svg')
-            .attr('id', 'radar-chart')
+            .attr('class', 'radar-grid')
             .style('position', 'absolute')
             .style('top', 0)
             .attr('width', radarW)
             .attr('height', radarW * 1.0194)
-            .style('font-size', radarW * 0.0581)
 
-        const padding = 0.155 * radarW
-        const Rmax = radarW / 2 - padding
         const rayons = [Rmax / 8, Rmax / 4, Rmax / 2, Rmax * 0.75, Rmax]
         rayons.forEach((r) =>
-            g
+            grid
                 .append('path')
-                .attr('class', 'radar-line')
+                .attr('class', 'radar-grid-line')
                 .attr('fill', 'none')
-                .attr('d', radarLine(r))
+                .attr('d', radarGridLine(r))
         )
-    }
+
+        let radarLinePointsRef = []
+        const coeff_scale = 0.9 * (Rmax / performancesRange.max)
+        for (let i = 0; i < N; i++) {
+            const index = (i + starting_index) % N
+            const val = coeff_scale * performances[index].value
+            radarLinePointsRef.push({
+                x: val * radarGridPointsRef[i].x,
+                y: val * radarGridPointsRef[i].y,
+            })
+        }
+
+        const radarLine = () => {
+            return `M${radarW / 2},${radarW / 2}
+                ${radarLinePointsRef.reduce(
+                    (prev, curr, idx) =>
+                        `${prev + (idx === 0 ? 'M' : 'L')}${
+                            radarW / 2 + curr.x
+                        },${radarW / 2 - curr.y}`,
+                    ''
+                )}Z`
+        }
+
+        const perf = g
+            .append('svg')
+            .attr('class', 'radar-chart')
+            .style('position', 'absolute')
+            .style('top', 0)
+            .attr('width', radarW)
+            .attr('height', radarW * 1.0194)
+
+        perf.append('path')
+            .attr('class', 'radar-line')
+            .attr('fill', 'none')
+            .attr('d', radarLine())
+
+        const labels = g
+            .append('svg')
+            .attr('class', 'radar-labels')
+            .style('position', 'absolute')
+            .style('top', 0)
+            .attr('width', radarW)
+            .attr('height', radarW * 1.0194)
+
+        radarGridPointsRef.forEach((ref, i) => {
+            const fontSize = radarW * 0.05
+            const canvas = document.createElement('canvas')
+            const context = canvas.getContext('2d')
+            context.font = fontSize + 'px ' + 'Roboto'
+
+            const lbl_width = context.measureText(radarLablels[i]).width
+            const lbl_height = fontSize
+
+            const sx = radarW / 2 + Rmax * 1.1 * ref.x
+            const sy = radarW / 2 - Rmax * 1.1 * ref.y
+
+            let lbl_x = sx - (lbl_width * (1 - radarGridPointsRef[i].x)) / 2
+            let lbl_y = sy + (lbl_height * (1 - radarGridPointsRef[i].y)) / 2
+
+            labels
+                .append('text')
+                .attr('x', lbl_x)
+                .attr('y', lbl_y)
+                .style('font-size', fontSize)
+                .text(toFrench[radarLablels[i]])
+        })
+    } // fin draw()
 
     return <div ref={ref} className="chart3 c-radar"></div>
 }
