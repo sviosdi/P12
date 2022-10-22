@@ -1,16 +1,13 @@
 .sidebar {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+
     background-color: #020203;
     width: 117px;
     min-height: calc(100vh - 91px);
     box-shadow: 0px 4px 4px 0px #00000040;
 }
 
-.sidebar>div:first-child {
-    margin-top: 25vh;
+.sidebar-buttons {
+    margin-top: 230px;
 }
 
 .sidebar a {
@@ -37,10 +34,12 @@
 }
 
 .copyright {
-    bottom: 0px;
+    position: absolute;
+    bottom: 30px;
+    left: 33px;
     color: white;
     font-size: 12px;
-    transform-origin: 12px -43px;
+    transform-origin: 0px 0px;
     transform: rotate(-90deg);
     width: 138px;
 }

@@ -19,7 +19,7 @@ const TimeChart = ({ data: times }) => {
 
     useEffect(() => {
         window.addEventListener('resize', resizeChart)
-        console.log('TimeChart first drawned')
+        //console.log('TimeChart first drawn')
         resizeChart()
         return () => window.removeEventListener('resize', resizeChart)
     }, [])

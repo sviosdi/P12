@@ -4,6 +4,7 @@ import natation from '../assets/img/natation.svg'
 import velo from '../assets/img/velo.svg'
 import poids from '../assets/img/poids.svg'
 import { Link } from 'react-router-dom'
+import SwitchButton from './SwitchButton'
 
 const MenuButton = ({ img, alt }) => {
     return (
@@ -16,7 +17,8 @@ const MenuButton = ({ img, alt }) => {
 const Sidebar = () => {
     return (
         <div className="sidebar">
-            <div>
+            <SwitchButton />
+            <div className="sidebar-buttons">
                 <MenuButton img={yoga} alt="yoga" />
                 <MenuButton img={natation} alt="natation" />
                 <MenuButton img={velo} alt="velo" />

@@ -30,7 +30,7 @@ const RadarChart = ({ data: performances, kind }) => {
     }
 
     useEffect(() => {
-        console.log('RadarChart first drawn')
+        //console.log('RadarChart first drawn')
         window.addEventListener('resize', resizeChart)
         resizeChart()
         radarLablels = performances.map(

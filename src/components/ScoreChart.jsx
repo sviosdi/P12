@@ -15,7 +15,7 @@ const ScoreChart = ({ data: score }) => {
 
     useEffect(() => {
         window.addEventListener('resize', resizeChart)
-        console.log('ScoreChart first drawned')
+        //console.log('ScoreChart first drawn')
         resizeChart()
         return () => window.removeEventListener('resize', resizeChart)
     }, [])

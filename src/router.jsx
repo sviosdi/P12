@@ -10,15 +10,16 @@ import {
     getPerformances,
 } from './utils/fetchdata'
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
 
 const router = createBrowserRouter([
     {
         path: '/',
         loader: async () => {
-            throw new Response('page not found', {
+            return redirect('/12')
+            /*  throw new Response('page not found', {
                 status: 404,
-            })
+            })*/
         },
         element: null,
         errorElement: <ErrorPage />,
@@ -30,11 +31,6 @@ const router = createBrowserRouter([
             const activities = await getUserActivity(params.id)
             const times = await getTimes(params.id)
             const perf = await getPerformances(params.id)
-
-            console.log(user)
-            console.log(activities)
-            console.log(times)
-            console.log(perf)
 
             if (!user || !activities || !times || !perf)
                 throw new Response('page not found', {
