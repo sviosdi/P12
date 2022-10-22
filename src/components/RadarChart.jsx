@@ -39,7 +39,7 @@ const RadarChart = ({ data: performances, kind }) => {
         for (let i = 0; i < N; i++) {
             // Premier point du polygone a pour coordonnée (0,1) les autres sont placés
             // puis on tourne le tout de 30°
-            const ang = Math.PI / 6
+            const ang = Math.PI / N
             let x = Math.cos((i * Math.PI * 2) / N + ang)
             let y = Math.sin((i * Math.PI * 2) / N + ang)
             radarGridPointsRef.push({
@@ -69,7 +69,7 @@ const RadarChart = ({ data: performances, kind }) => {
             )}Z`
     }
 
-    const padding = 0.17 * radarW
+    const padding = 0.19 * radarW
     const Rmax = radarW / 2 - padding
 
     const draw = () => {
@@ -135,14 +135,14 @@ const RadarChart = ({ data: performances, kind }) => {
             .attr('height', radarW * 1.0194)
 
         radarGridPointsRef.forEach((ref, i) => {
-            const fontSize = radarW * 0.05
+            const fontSize = radarW * 0.045
             const canvas = document.createElement('canvas')
             const context = canvas.getContext('2d')
             context.font = fontSize + 'px ' + 'Roboto'
-
-            const lbl_width = context.measureText(
-                toFrench[radarLablels[i]]
-            ).width
+            const text = toFrench[radarLablels[i]]
+                ? toFrench[radarLablels[i]]
+                : radarLablels[i]
+            const lbl_width = context.measureText(text).width
             const lbl_height = fontSize
 
             const sx = radarW / 2 + Rmax * 1.1 * ref.x
@@ -156,7 +156,7 @@ const RadarChart = ({ data: performances, kind }) => {
                 .attr('x', lbl_x)
                 .attr('y', lbl_y)
                 .style('font-size', fontSize)
-                .text(toFrench[radarLablels[i]])
+                .text(text)
         })
     } // fin draw()
 
