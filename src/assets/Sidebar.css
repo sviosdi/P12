@@ -34,13 +34,19 @@
     border: solid 1px #777;
 }
 
+.sidebar>div:last-child {
+    position: relative;
+    height: 138px;
+}
+
 .copyright {
     position: absolute;
-    bottom: 30px;
+    bottom: -100px;
     left: 33px;
     color: white;
     font-size: 12px;
     transform-origin: 0px 0px;
     transform: rotate(-90deg);
     width: 138px;
+
 }

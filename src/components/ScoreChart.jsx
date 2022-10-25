@@ -50,8 +50,8 @@ const ScoreChart = ({ data: score }) => {
             .endAngle(2 * Math.PI)
         svg.append('path')
             .attr('d', arc_glob)
-            .attr('fill', '#e9e9e9')
-            .attr('stroke', '#e0e0e0')
+            .attr('fill', '#e0e0e0')
+            .attr('stroke', '#d5d5d5')
 
         var arc = d3
             .arc()
