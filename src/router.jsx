@@ -3,12 +3,8 @@ import ReactDOM from 'react-dom/client'
 import Homepage from './pages/Homepage'
 import './index.css'
 import ErrorPage from './pages/ErrorPage'
-import {
-    getUserData,
-    getUserActivity,
-    getTimes,
-    getPerformances,
-} from './utils/fetchdata'
+
+import { API } from './utils/backend.service'
 
 import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
 
@@ -27,10 +23,14 @@ const router = createBrowserRouter([
     {
         path: '/:id',
         loader: async ({ params }) => {
-            const user = await getUserData(params.id)
-            const activities = await getUserActivity(params.id)
-            const times = await getTimes(params.id)
-            const perf = await getPerformances(params.id)
+            //  const api = new API('https://bz0bje-3000.preview.csb.app')
+            const api = new API()
+            const user = await api.getUserData(Number.parseInt(params.id))
+            const activities = await api.getUserActivity(
+                Number.parseInt(params.id)
+            )
+            const times = await api.getTimes(Number.parseInt(params.id))
+            const perf = await api.getPerformances(Number.parseInt(params.id))
 
             if (!user || !activities || !times || !perf)
                 throw new Response('page not found', {
@@ -46,7 +46,8 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    // <React.StrictMode> // Désactiver le mode strict en développement pour éviter la répétition des méthodes construtor(), render(), shouldComponentUpdate()
-    <RouterProvider router={router} />
-    // </React.StrictMode>
+    // Désactiver le mode strict en développement pour éviter la répétition des méthodes constructor(), render(), shouldComponentUpdate()
+    <React.StrictMode>
+        <RouterProvider router={router} />
+    </React.StrictMode>
 )
