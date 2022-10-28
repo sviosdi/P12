@@ -24,7 +24,6 @@ const ActiveChart = ({ data }) => {
     const ref = useRef()
     useEffect(() => {
         window.addEventListener('resize', resizeActivities)
-        //draw(ref.current) ?? utile ou pas ?
         return () => window.removeEventListener('resize', resizeActivities)
     }, [])
 

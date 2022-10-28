@@ -18,7 +18,8 @@ export class API {
                     return res.json()
                 }
             )
-            return response.data
+            if (response === undefined) return response
+            else return response.data
         } else {
             return USER_MAIN_DATA.filter((u) => u.id === userId)[0]
         }
@@ -32,7 +33,8 @@ export class API {
                 if (!res.ok) return { data: { sessions: undefined } }
                 return res.json()
             })
-            return response.data.sessions
+            if (response === undefined) return response
+            else return response.data.sessions
         } else {
             return USER_ACTIVITY.filter((u) => u.userId === userId)[0].sessions
         }
@@ -46,7 +48,8 @@ export class API {
                 if (!res.ok) return { data: { sessions: undefined } }
                 return res.json()
             })
-            return response.data.sessions
+            if (response === undefined) return response
+            else return response.data.sessions
         } else {
             return USER_AVERAGE_SESSIONS.filter((u) => u.userId === userId)[0]
                 .sessions
@@ -62,7 +65,8 @@ export class API {
                     return { data: { kind: undefined, data: undefined } }
                 return res.json()
             })
-            return { kind: response.data.kind, data: response.data.data }
+            if (response === undefined) return response
+            else return { kind: response.data.kind, data: response.data.data }
         } else {
             return USER_PERFORMANCE.filter((u) => u.userId === userId)[0]
         }
