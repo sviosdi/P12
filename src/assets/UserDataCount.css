@@ -2,7 +2,7 @@
     .userDataCount {
         display: flex;
         flex-direction: column;
-        width: calc((100%-60px)/4);
+        width: calc((100% - 60px)/4);
         height: 134px;
     }
 

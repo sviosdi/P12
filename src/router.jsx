@@ -8,6 +8,20 @@ import { API } from './utils/backend.service'
 
 import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
 
+const loader = async ({ params }, api) => {
+    const user = await api.getUserData(Number.parseInt(params.id))
+    const activities = await api.getUserActivity(Number.parseInt(params.id))
+    const times = await api.getTimes(Number.parseInt(params.id))
+    const perf = await api.getPerformances(Number.parseInt(params.id))
+
+    if (!user || !activities || !times || !perf)
+        throw new Response('page not found', {
+            status: 404,
+            statusText: 'Page non trouvée : identifiant utilisateur incorrect',
+        })
+    else return { user, activities, times, perf }
+}
+
 const router = createBrowserRouter([
     {
         path: '/',
@@ -19,40 +33,14 @@ const router = createBrowserRouter([
     },
     {
         path: '/:id',
-        loader: async ({ params }) => {
-            const api = new API('http://localhost:3000')
-            //const api = new API('https://bz0bje-3000.preview.csb.app')
-            const user = await api.getUserData(Number.parseInt(params.id))
-            const activities = await api.getUserActivity(
-                Number.parseInt(params.id)
-            )
-            const times = await api.getTimes(Number.parseInt(params.id))
-            const perf = await api.getPerformances(Number.parseInt(params.id))
-
-            if (!user || !activities || !times || !perf)
-                throw new Response('page not found', {
-                    status: 404,
-                    statusText:
-                        'Page non trouvée : identifiant utilisateur incorrect',
-                })
-            else return { user, activities, times, perf }
-        },
+        loader: async ({ params }) =>
+            loader({ params }, new API('https://bz0bje-3000.preview.csb.app')),
         element: <Homepage />,
         errorElement: <ErrorPage />,
     },
     {
         path: '/mocked/:id',
-        loader: async ({ params }) => {
-            const api = new API()
-            const user = await api.getUserData(Number.parseInt(params.id))
-            const activities = await api.getUserActivity(
-                Number.parseInt(params.id)
-            )
-            const times = await api.getTimes(Number.parseInt(params.id))
-            const perf = await api.getPerformances(Number.parseInt(params.id))
-
-            return { user, activities, times, perf }
-        },
+        loader: async ({ params }) => loader({ params }, new API()),
         element: <Homepage />,
         errorElement: <ErrorPage />,
     },

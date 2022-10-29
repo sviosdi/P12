@@ -36,7 +36,8 @@ export class API {
             if (response === undefined) return response
             else return response.data.sessions
         } else {
-            return USER_ACTIVITY.filter((u) => u.userId === userId)[0].sessions
+            const activity = USER_ACTIVITY.filter((u) => u.userId === userId)[0]
+            return activity ? activity.sessions : undefined
         }
     }
 
@@ -51,8 +52,10 @@ export class API {
             if (response === undefined) return response
             else return response.data.sessions
         } else {
-            return USER_AVERAGE_SESSIONS.filter((u) => u.userId === userId)[0]
-                .sessions
+            const times = USER_AVERAGE_SESSIONS.filter(
+                (u) => u.userId === userId
+            )[0]
+            return times ? times.sessions : undefined
         }
     }
 
