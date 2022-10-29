@@ -8,6 +8,8 @@ This project uses Javascript (ES7), CSS, [React](https://reactjs.org/) 18.2, [Re
 
 ## Getting started
 
+A full live demo application is deployed and running at the address [https://sez5ks-4173.preview.csb.app](https://sez5ks-4173.preview.csb.app)
+
 ## Running the backend
 
 A backend is already running by default as a demo with data for two users at [https://bz0bje-3000.preview.csb.app](https://markdownlivepreview.com/).
@@ -21,20 +23,20 @@ yarn
 yarn start
 ```
 
-But before running the frontend, you will have then to edit the file /src/router.jsx by uncommenting the line 23 and commenting the line 24.
+But before running the frontend, you will have then to edit the file /src/router.jsx by uncommenting the line 38 and commenting the line 37.
 
 Before changes :
 ```shell
-       loader: async ({ params }) => {
-            // const api = new API('http://localhost:3000')
-            const api = new API('https://bz0bje-3000.preview.csb.app')
+loader: async ({ params }) =>
+            loader({ params }, new API('https://bz0bje-3000.preview.csb.app')),
+            // loader({ params }, new API('http://localhost:3000')),
 ```
 
 After changes :
 ```shell
-       loader: async ({ params }) => {
-            const api = new API('http://localhost:3000')
-            // const api = new API('https://bz0bje-3000.preview.csb.app')
+loader: async ({ params }) =>
+            // loader({ params }, new API('https://bz0bje-3000.preview.csb.app')),
+            loader({ params }, new API('http://localhost:3000')),
 ```
 
 ## Running the frontend
