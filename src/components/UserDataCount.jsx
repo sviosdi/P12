@@ -1,5 +1,14 @@
 import '../assets/UserDataCount.css'
+import PropTypes from 'prop-types'
 
+/**
+ * The React component displaying the users data cards
+ * @function UserDataCount
+ * @param { string } img The svg image passed to the component as a property to illustrate the card
+ * @param { number } quant The value passed to the component as a property
+ * @param { string } cat The array of objects with day and sessionlength fields passed to the component as a property
+ * @return { jsx } Returns the jsx component
+ */
 const UserDataCount = ({ img, quant, cat }) => {
     const getColor = (cat) => {
         switch (cat) {
@@ -30,6 +39,12 @@ const UserDataCount = ({ img, quant, cat }) => {
             </div>
         </div>
     )
+}
+
+UserDataCount.propTypes = {
+    img: PropTypes.string.isRequired,
+    quant: PropTypes.number.isRequired,
+    cat: PropTypes.string.isRequired,
 }
 
 export default UserDataCount

@@ -28,7 +28,7 @@ const getMessageError = (error) => {
             </div>
         )
 }
-
+/** This component is the error page displayed when an error has occurred in a route or when retrieving a non-existent user*/
 const ErrorPage = () => {
     const error = useRouteError()
     return getMessageError(error)

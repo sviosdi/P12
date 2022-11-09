@@ -35,6 +35,7 @@ const router = createBrowserRouter([
         path: '/:id',
         loader: async ({ params }) =>
             loader({ params }, new API('https://bz0bje-3000.preview.csb.app')),
+        //loader({ params }, new API('http://localhost:3000')),
         element: <Homepage />,
         errorElement: <ErrorPage />,
     },

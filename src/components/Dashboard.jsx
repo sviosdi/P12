@@ -6,7 +6,7 @@ import prot from '../assets/img/proteines.svg'
 import gluc from '../assets/img/glucides.svg'
 import lipi from '../assets/img/lipides.svg'
 import UserDataCount from '../components/UserDataCount'
-import ActivChart from '../components/ActivChart'
+import ActiveChart from '../components/ActiveChart'
 import ScoreChart from './ScoreChart'
 import TimeChart from './TimeChart'
 import RadarChart from './RadarChart'
@@ -31,7 +31,7 @@ const Dashboard = () => {
             </header>
             <section className="main-layout">
                 <div className="left-dash">
-                    <ActivChart data={activities} />
+                    <ActiveChart data={activities} />
                     <div className="bottom-charts">
                         <TimeChart data={times} />
                         <RadarChart data={performances} kind={kind} />

@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar'
 import Dashboard from '../components/Dashboard'
 import '../assets/Homepage.css'
 
+/** This component is the main page. It includes the Navbar, Sidebar and Dashboard */
 const Homepage = () => {
     return (
         <>
