@@ -5,6 +5,11 @@ import {
     USER_PERFORMANCE,
 } from './mocked-data'
 
+/**
+ * Represents an API running at the base url baseUrl
+ * @constructor
+ * @param {string} baseUrl - The the base url of the service running the API.
+ */
 export class API {
     constructor(baseUrl = null) {
         this.baseUrl = baseUrl
@@ -18,8 +23,7 @@ export class API {
                     return res.json()
                 }
             )
-            if (response === undefined) return response
-            else return response.data
+            return response.data
         } else {
             return USER_MAIN_DATA.filter((u) => u.id === userId)[0]
         }
@@ -33,8 +37,7 @@ export class API {
                 if (!res.ok) return { data: { sessions: undefined } }
                 return res.json()
             })
-            if (response === undefined) return response
-            else return response.data.sessions
+            return response.data.sessions
         } else {
             const activity = USER_ACTIVITY.filter((u) => u.userId === userId)[0]
             return activity ? activity.sessions : undefined
@@ -49,8 +52,7 @@ export class API {
                 if (!res.ok) return { data: { sessions: undefined } }
                 return res.json()
             })
-            if (response === undefined) return response
-            else return response.data.sessions
+            return response.data.sessions
         } else {
             const times = USER_AVERAGE_SESSIONS.filter(
                 (u) => u.userId === userId
@@ -68,8 +70,7 @@ export class API {
                     return { data: { kind: undefined, data: undefined } }
                 return res.json()
             })
-            if (response === undefined) return response
-            else return { kind: response.data.kind, data: response.data.data }
+            return { kind: response.data.kind, data: response.data.data }
         } else {
             return USER_PERFORMANCE.filter((u) => u.userId === userId)[0]
         }
