@@ -12,7 +12,7 @@ A full live demo application is deployed and running at the address [https://sez
 
 ## Running the backend
 
-A backend is already running by default as a demo with data for two users at [https://bz0bje-3000.preview.csb.app](https://markdownlivepreview.com/).
+A backend is already running by default as a demo with data for two users at [https://bz0bje-3000.preview.csb.app](https://bz0bje-3000.preview.csb.app).
 If you decide to use it, you can directly run the frontend.
 
 You can also clone the backend and run it locally :
